@@ -131,7 +131,8 @@ resource "yandex_compute_instance" "private" {
 ```
 
 ![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_7.png)  
-
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_5.png)  
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_8.png)  
 
 Resource Terraform для Yandex Cloud:
 
