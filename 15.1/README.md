@@ -14,7 +14,9 @@
 
 ![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_1.png)  
 
+### Комментарий
 
+Все файлы с сылками оставлю в конце.   
 
 1. Создать пустую VPC. Выбрать зону.
 
@@ -68,7 +70,7 @@ resource "yandex_compute_instance" "nat_instance" {
 
  - Создать в этой публичной подсети виртуалку с публичным IP, подключиться к ней и убедиться, что есть доступ к интернету.
 ![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_7.png)  
-[test](add screen)   
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_10.png)   
 
 3. Приватная подсеть.
  - Создать в VPC subnet с названием private, сетью 192.168.20.0/24.
@@ -134,6 +136,14 @@ resource "yandex_compute_instance" "private" {
 ![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_5.png)  
 ![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_8.png)  
 
+
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/locals.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/nat_instance.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/provider.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/static.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/variable.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/vm.tf).
+[tf](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/vpc_and_subnet.tf).
 Resource Terraform для Yandex Cloud:
 
 - [VPC subnet](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/vpc_subnet).
