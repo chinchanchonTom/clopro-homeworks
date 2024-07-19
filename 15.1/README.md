@@ -12,6 +12,10 @@
 
 **Что нужно сделать**
 
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_1.png)  
+
+
+
 1. Создать пустую VPC. Выбрать зону.
 
 ```
@@ -63,18 +67,70 @@ resource "yandex_compute_instance" "nat_instance" {
 ```
 
  - Создать в этой публичной подсети виртуалку с публичным IP, подключиться к ней и убедиться, что есть доступ к интернету.
- 
-
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_7.png)  
+[test](add screen)   
 
 3. Приватная подсеть.
  - Создать в VPC subnet с названием private, сетью 192.168.20.0/24.
+```
+resource "yandex_vpc_subnet" "subnet_private" {
+  name           = var.vpc_network.private.name
+  v4_cidr_blocks = var.vpc_network.private.cidr
+  zone           = var.vpc_network.private.zone
+  network_id     = yandex_vpc_network.netology_vpc.id
+  route_table_id = yandex_vpc_route_table.private-route.id
+}
+```
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_4.png)  
 
 
  - Создать route table. Добавить статический маршрут, направляющий весь исходящий трафик private сети в NAT-инстанс.
 
+```
+resource "yandex_vpc_route_table" "private-route" {
+  name       = "route_private_subnet"
+  network_id = yandex_vpc_network.netology_vpc.id
+
+  static_route {
+    destination_prefix =  var.destination_route
+    next_hop_address   = var.nat_instance.nat.ip_address
+  }
+}
+```
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_6.png)  
+
 
  - Создать в этой приватной подсети виртуалку с внутренним IP, подключиться к ней через виртуалку, созданную ранее, и убедиться, что есть доступ к интернету.
+```
+resource "yandex_compute_instance" "private" {
+  name         = var.vm.private_vm.name
+  zone         = var.vm.private_vm.zone
+  platform_id  = var.vm.private_vm.platform_id
+  resources {
+    cores  = var.vm.private_vm.cores
+    memory = var.vm.private_vm.memory
+  }
 
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.ubuntu.image_id
+    }
+  }
+
+  network_interface {
+    subnet_id      = yandex_vpc_subnet.subnet_private.id
+    nat            = var.vm.private_vm.nat_enable
+  }
+
+  metadata = {
+    serial-port-enable = 1
+    ssh-keys           = "ubuntu:${local.ssh_public_key}"
+  }
+}
+
+```
+
+![test](https://github.com/chinchanchonTom/clopro-homeworks/blob/main/15.1/img/Screenshot_7.png)  
 
 
 Resource Terraform для Yandex Cloud:
