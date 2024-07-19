@@ -13,15 +13,69 @@
 **Что нужно сделать**
 
 1. Создать пустую VPC. Выбрать зону.
+
+```
+resource "yandex_vpc_network" "netology_vpc" {
+  name = "netology_vpc"
+}
+
+```
+
 2. Публичная подсеть.
 
  - Создать в VPC subnet с названием public, сетью 192.168.10.0/24.
+```
+resource "yandex_vpc_subnet" "subnet_public" {
+  name           = var.vpc_network.public.name
+  v4_cidr_blocks = var.vpc_network.public.cidr
+  zone           = var.vpc_network.public.zone
+  network_id     = yandex_vpc_network.netology_vpc.id
+}
+
+```
+
  - Создать в этой подсети NAT-инстанс, присвоив ему адрес 192.168.10.254. В качестве image_id использовать fd80mrhj8fl2oe87o4e1.
+
+```
+resource "yandex_compute_instance" "nat_instance" {
+    name = var.nat_instance.nat.name
+    zone = var.nat_instance.nat.zone
+    platform_id = var.nat_instance.nat.platform_id
+
+    resources {
+        cores  = var.nat_instance.nat.cores
+        memory = var.nat_instance.nat.memory
+    }
+  
+  boot_disk {
+    initialize_params {
+      image_id = var.nat_instance.nat.image_id
+    }
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.subnet_public.id
+    nat       = var.nat_instance.nat.nat_enable
+    ip_address = var.nat_instance.nat.ip_address 
+  }
+}
+
+```
+
  - Создать в этой публичной подсети виртуалку с публичным IP, подключиться к ней и убедиться, что есть доступ к интернету.
+ 
+
+
 3. Приватная подсеть.
  - Создать в VPC subnet с названием private, сетью 192.168.20.0/24.
+
+
  - Создать route table. Добавить статический маршрут, направляющий весь исходящий трафик private сети в NAT-инстанс.
+
+
  - Создать в этой приватной подсети виртуалку с внутренним IP, подключиться к ней через виртуалку, созданную ранее, и убедиться, что есть доступ к интернету.
+
+
 
 Resource Terraform для Yandex Cloud:
 
