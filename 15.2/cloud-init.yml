@@ -1,0 +1,15 @@
+#cloud-config
+package_update: true
+package_upgrade: false
+write_files:
+  - path: /var/www/html/index.html
+    content: |
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="UTF-8">
+      </head>
+      <body>
+        <a href="https://netologymaksim.website.yandexcloud.net/cat"> cat</a>
+      </body>
+      </html>
